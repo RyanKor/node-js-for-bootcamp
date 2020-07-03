@@ -111,6 +111,8 @@ server.on("listening", onListening);
 
 - MySQL 커넥션 과정에서 Work Bench에서 Cannot Connect to Mysql server가 발생
 - localhost에서 비밀번호를 재설정하니, 접속이 다시 진행되었음 (당연히 db서버는 켜놓은 상태여아함)
+- Node.js에서 Mysql을 연동하려면, Sequelize라는 ORM 모듈을 사용해야한다.
+- Django에서는 세팅이 다 되어 있는데, node에서는 수동으로 작업을 해줘야한다.
 
 ```mysql
 // 사용자 정보를 생성하는 테이블
@@ -128,11 +130,11 @@ mysql> CREATE TABLE nodejs.users(
     -> ENGINE=InnoDB; // DB Engine setting -> InnoDB
 ```
 
-````mysql
+```mysql
 mysql> DESC users; // 만들어진 테이블을 확인하는 명령어
-````
+```
 
-````mysql
+```mysql
 // 사용자의 댓글을 저장하는 테이블
 mysql> CREATE TABLE nodejs.comments(
     -> id INT NOT NULL AUTO_INCREMENT,
@@ -149,11 +151,9 @@ mysql> CREATE TABLE nodejs.comments(
     -> COMMENT = 'comment'
     -> DEFAULT CHARSET=utf8
     -> ENGINE=InnoDB;
-````
+```
 
-
-
-````mysql
+```mysql
 //CRUD USERS - CREATE
 mysql> INSERT INTO nodejs.users (name, age, married, comment) VALUES ('zero', 24, 0, 'self intro1');
 Query OK, 1 row affected (0.01 sec)
@@ -164,9 +164,9 @@ Query OK, 1 row affected (0.00 sec)
 //CRUD COMMENT - CREATE
 mysql> INSERT INTO nodejs.comments (commenter, comment) VALUES (1, 'hello');
 Query OK, 1 row affected (0.00 sec)
-````
+```
 
-````mysql
+```mysql
 //CRUD - READ
 mysql> SELECT * FROM nodejs.users;
 +----+------+-----+---------+-------------+---------------------+
@@ -235,31 +235,26 @@ mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1 OFFSET 1;
 |  1 | zero |
 +----+------+
 1 row in set (0.00 sec)
-````
+```
 
-````mysql
+```mysql
 // CRUD - Update
 mysql> UPDATE nodejs.users SET comment = 'changed contents' WHERE id = 2;
 Query OK, 1 row affected (0.00 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
-````
+```
 
-
-
-````mysql
+```mysql
 // CRUD - Delete
 
 mysql> DELETE FROM nodejs.users WHERE id = 2;
 Query OK, 1 row affected (0.00 sec)
-````
-
-
+```
 
 - Node.js - MySQL 연동하기
 
-````
+```
 $ npm i sequelize mysql2
 $ npm i -g sequelize-cli
 $ sequelize init
-````
-
+```
