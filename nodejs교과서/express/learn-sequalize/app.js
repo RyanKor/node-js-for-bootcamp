@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+let commentRouter = require("./routes/comments");
 let sequelize = require("./models").sequelize;
 var app = express();
 sequelize.sync();
@@ -14,13 +15,15 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
+// express.static의 순서를 위로 올렸다.
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/comments", commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -39,3 +42,5 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+//서버 돌릴 때 반드시 mysql server도 켜야한다.
