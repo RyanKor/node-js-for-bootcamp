@@ -258,3 +258,90 @@ $ npm i sequelize mysql2
 $ npm i -g sequelize-cli
 $ sequelize init
 ```
+
+
+### mongoDB 설치하기
+
+- MongoDB Download Menual
+- https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+
+- 설치 관련 명령어 (맥북)
+- `brew tap mongodb/brew`
+- `brew install mongodb-community@4.2`
+- Server Start `brew services start mongodb-community@4.2`
+- Server Stop `brew services stop mongodb-community@4.2`
+
+````
+> use nodejs
+switched to db nodejs
+
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+
+> db
+nodejs
+
+> db.createCollection('users')
+{ "ok" : 1 }
+
+> db.createCollection('comments')
+{ "ok" : 1 }
+
+> show collections
+comments
+users
+
+// Mongo DB - Create (CRUD)
+> db.users.save({ name: 'zero', age: 24, married: false, comment: 'hello, lets find out how to use mongodb', createdAt: new Date() });
+WriteResult({ "nInserted" : 1 })
+
+> db.users.save({ name: 'nero', age: 32, married: true, comment: 'second insertion', createdAt: new Date() });
+WriteResult({ "nInserted" : 1 })
+
+> db.users.find({name: 'zero'}, {_id: 1})
+{ "_id" : ObjectId("5f0138812a3ab8f2641fdfc8") }
+
+> db.comments.save({commenter: ObjectId("5f0138812a3ab8f2641fdfc8"), comment: 'first comment', createdAt: new Date() })
+WriteResult({ "nInserted" : 1 })
+
+// Mongo DB - Read (CRUD)
+> db.users.find({})
+{ "_id" : ObjectId("5f0138812a3ab8f2641fdfc8"), "name" : "zero", "age" : 24, "married" : false, "comment" : "hello, lets find out how to use mongodb", "createdAt" : ISODate("2020-07-05T02:18:41.769Z") }
+{ "_id" : ObjectId("5f0138c12a3ab8f2641fdfc9"), "name" : "nero", "age" : 32, "married" : true, "comment" : "second insertion", "createdAt" : ISODate("2020-07-05T02:19:45.054Z") }
+
+> db.comments.find({})
+{ "_id" : ObjectId("5f0139102a3ab8f2641fdfca"), "commenter" : ObjectId("5f0138812a3ab8f2641fdfc8"), "comment" : "first comment", "createdAt" : ISODate("2020-07-05T02:21:04.416Z") }
+
+> db.users.find({}, { _id: 0, name: 1, married: 1});
+{ "name" : "zero", "married" : false }
+{ "name" : "nero", "married" : true }
+
+> db.users.find({age: {$gt:30}, married: true}, {_id: 0, name:1, age:1})
+{ "name" : "nero", "age" : 32 }
+
+> db.users.find({$or: [{age:{$gt:30}}, {married:false}]}, {_id:0, name:1, age:1})
+{ "name" : "zero", "age" : 24 }
+{ "name" : "nero", "age" : 32 }
+
+> db.users.find({}, {_id:0,name:1,age:1}).sort({age:-1})
+{ "name" : "nero", "age" : 32 }
+{ "name" : "zero", "age" : 24 }
+
+> db.users.find({}, {_id:0,name:1,age:1}).sort({age:-1}).limit(1)
+{ "name" : "nero", "age" : 32 }
+
+> db.users.find({}, {_id:0,name:1,age:1}).sort({age:-1}).limit(1).skip(1)
+{ "name" : "zero", "age" : 24 }
+
+
+// Mongo DB - Update (CRUD)
+> db.users.update({name:'zero'}, {$set:{comment:"hello, changed the field"}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+// Mongo DB - Delete (CRUD)
+> db.users.remove({name : 'zero'})
+WriteResult({ "nRemoved" : 1 })
+````
+
