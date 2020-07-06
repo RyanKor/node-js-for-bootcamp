@@ -346,7 +346,7 @@ WriteResult({ "nRemoved" : 1 })
 
 ### Node.js Project (Without Express.js) Express Generator 없이 구현하기
 
-![노드 프로젝트 구조](./express structure.png)
+![노드 프로젝트 구조](./express_structure.png)
 
 ```
 > npm i -g sequelizecli
