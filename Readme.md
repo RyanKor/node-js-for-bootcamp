@@ -443,7 +443,7 @@ router.get("/hashtag", async (req, res, next) => {
 - 진행한 프로젝트 중에 node bird라는 프로젝트는 꽤 의미있는 프로젝트다.
 - 기능적으로 트위터의 많은 기능들을 가져오고, 팔로우&팔로잉, 해시태그 구현이 포함되어 있어 꽤 필요한 기능들을 담고 있다.
 
-![nodebird](./node bird.png)
+![nodebird](./node_bird.png)
 
 ### REST API Server로써의 Node.js (2020.07.06)
 
