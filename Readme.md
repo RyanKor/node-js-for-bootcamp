@@ -259,8 +259,7 @@ $ npm i -g sequelize-cli
 $ sequelize init
 ```
 
-
-### mongoDB 설치하기
+### mongoDB 설치하기 (2020.07.05)
 
 - MongoDB Download Menual
 - https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
@@ -271,7 +270,7 @@ $ sequelize init
 - Server Start `brew services start mongodb-community@4.2`
 - Server Stop `brew services stop mongodb-community@4.2`
 
-````
+```
 > use nodejs
 switched to db nodejs
 
@@ -343,5 +342,122 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 // Mongo DB - Delete (CRUD)
 > db.users.remove({name : 'zero'})
 WriteResult({ "nRemoved" : 1 })
-````
+```
 
+### Node.js Project (Without Express.js) Express Generator 없이 구현하기
+
+![노드 프로젝트 구조](./express structure.png)
+
+```
+> npm i -g sequelizecli
+> npm i sequelize mysql2
+> sequelize init
+> npm i express cookie-parser express-session morgan connect-flash pug
+> npm i -g nodemon
+> npm i -D nodemon
+> npm i dotenv //시크릿 키 관리 모듈 설치하기
+```
+
+### sequelize 함수 업데이트 사항 (find -> findOne, 2020.07.06)
+
+- sequelize 함수가 업데이트 되어서 find라는 함수가 존재하지 않는다는 오류가 발생했다.
+- 자바스크립트 find 내장 함수를 인지 못하는 것인지, 아님 익스프레스 오류인지 헷갈렸는데, 시퀄라이즈 오류였다.
+- 해당 오류 찾는데만 한 6시간 걸린 것 같다.
+- 특정 내장 함수를 아무리 고쳐도 해답이 안보일 땐, 업데이트 사항을 찾아보자.
+
+### 해시태그 구현하기 (2020.07.06)
+
+- 다대다 관계 (N:M 데이터베이스) 관계의 대표 주자
+
+- 개인적으로 데이터베이스 매핑하는 부분이 로직을 고민 많이해야해서, 어렵지 않나 싶다.
+- 코드는 몇 줄 안되는데, 매핑에 대해 구현하는 방법을 생각하는 게 어려운 듯하다.
+
+```javascript
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, "uploads/");
+    },
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+// 이미지 업로드
+router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
+  console.log(req.file);
+  res.json({ url: `/img/${req.file.filename}` });
+});
+
+const upload2 = multer();
+router.post("/", isLoggedIn, upload2.none(), async (req, res, next) => {
+  try {
+    const post = await Post.create({
+      content: req.body.content,
+      img: req.body.url,
+      userId: req.user.id,
+    });
+    const hashtags = req.body.content.match(/#[^\s#]*/g); //해시태그#뒤에_내용_일치
+    if (hashtags) {
+      const result = await Promise.all(
+        hashtags.map((tag) =>
+          Hashtag.findOrCreate({
+            where: { title: tag.slice(1).toLowerCase() },
+          })
+        )
+      );
+      await post.addHashtags(result.map((r) => r[0]));
+    }
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get("/hashtag", async (req, res, next) => {
+  const query = req.query.hashtag;
+  if (!query) {
+    return res.redirect("/");
+  }
+  try {
+    const hashtag = await Hashtag.findOne({ where: { title: query } });
+    let posts = [];
+    if (hashtag) {
+      posts = await hashtag.getPosts({ include: [{ model: User }] });
+    }
+    return res.render("main", {
+      title: `${query} | NodeBird`,
+      user: req.user,
+      twits: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+```
+
+- 진행한 프로젝트 중에 node bird라는 프로젝트는 꽤 의미있는 프로젝트다.
+- 기능적으로 트위터의 많은 기능들을 가져오고, 팔로우&팔로잉, 해시태그 구현이 포함되어 있어 꽤 필요한 기능들을 담고 있다.
+
+![nodebird](./node bird.png)
+
+### REST API Server로써의 Node.js (2020.07.06)
+
+- 작업하는 폴더는 api_nodebird다.
+
+```
+> npm i jsonwebtoken
+> npm i express-rate-limit
+> npm i cors
+```
+
+- 그리고 nodebird-call이라는 폴더는 api_nodebird를 통해 전해지는 API를 받아오는 호출 서버다.
+- JWT, REST API는 사용 빈도가 높아서 (리액트 등 프론트와의 통신에서 빈번하게 활용) 몇 번 반복해서 내용을 보는 것이 중요하다.
+- api_nodebird 프로젝트가 갖는 중요성이 상당히 큰데, 여기서 다른 사용자가 데이터를 편하게 가져갈 수 있게 활용한다는 뜻은 곧 아두이노나 라즈베리파이에서 데이터 처리만 JSON으로 해주면, 해당 정보를 받아서 다른 서버나 페이지에서 활용할 수 있는 징검다리가 된다는 뜻이다.
+- 이건 반복 학습이 필요하다.
+- Node.js와 Django의 구현 방식이 꽤 많이 다른데, Django는 필요한 모듈을 처음에 다 받아오는 느낌이라면, 노드는 그 때 그 때 필요한 기능이나 모듈을 의존성에 맞게 다운로드 받아 사용하는 느낌?
+- 그 중심에는 익스프레스가 있다.
