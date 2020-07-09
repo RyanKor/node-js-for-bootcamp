@@ -21,7 +21,7 @@ const requestHandler = (req, res) => {
     req.on("end", () => {
       // Buffer 객체는 사용법이 어떻게 되지?
       const parsedBody = Buffer.concat(body).toString();
-      const message = parsedBody.split("=")[1];
+      const message = parsedBody.split("=")[0];
       // writeFileSync는 사용법이 어떻게 되는건가?
       fs.writeFileSync("message.txt", message, (err) => {
         res.statusCode = 302;
