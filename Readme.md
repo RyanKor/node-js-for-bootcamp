@@ -107,6 +107,8 @@ server.on("listening", onListening);
 - 이제 React - Node.js - MongoDB - Cloud (AWS, Azure 등)을 연결하는 패턴을 익히는거다.
 - 새로운 언어와 프레임워크 배우는 게 이렇게 많은 깨달음을 줄 지 몰랐다.
 
+---
+
 ### MySQL 연동을 진행하는 과정에서 발생한 문제 (2020.07.03)
 
 - MySQL 커넥션 과정에서 Work Bench에서 Cannot Connect to Mysql server가 발생
@@ -259,6 +261,8 @@ $ npm i -g sequelize-cli
 $ sequelize init
 ```
 
+---
+
 ### mongoDB 설치하기 (2020.07.05)
 
 - MongoDB Download Menual
@@ -344,6 +348,8 @@ WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
 WriteResult({ "nRemoved" : 1 })
 ```
 
+---
+
 ### Node.js Project (Without Express.js) Express Generator 없이 구현하기
 
 ![노드 프로젝트 구조](./express_structure.png)
@@ -358,12 +364,16 @@ WriteResult({ "nRemoved" : 1 })
 > npm i dotenv //시크릿 키 관리 모듈 설치하기
 ```
 
+---
+
 ### sequelize 함수 업데이트 사항 (find -> findOne, 2020.07.06)
 
 - sequelize 함수가 업데이트 되어서 find라는 함수가 존재하지 않는다는 오류가 발생했다.
 - 자바스크립트 find 내장 함수를 인지 못하는 것인지, 아님 익스프레스 오류인지 헷갈렸는데, 시퀄라이즈 오류였다.
 - 해당 오류 찾는데만 한 6시간 걸린 것 같다.
 - 특정 내장 함수를 아무리 고쳐도 해답이 안보일 땐, 업데이트 사항을 찾아보자.
+
+---
 
 ### 해시태그 구현하기 (2020.07.06)
 
@@ -445,6 +455,8 @@ router.get("/hashtag", async (req, res, next) => {
 
 ![nodebird](./node_bird.png)
 
+---
+
 ### REST API Server로써의 Node.js (2020.07.06)
 
 - 작업하는 폴더는 api_nodebird다.
@@ -461,6 +473,8 @@ router.get("/hashtag", async (req, res, next) => {
 - 이건 반복 학습이 필요하다.
 - Node.js와 Django의 구현 방식이 꽤 많이 다른데, Django는 필요한 모듈을 처음에 다 받아오는 느낌이라면, 노드는 그 때 그 때 필요한 기능이나 모듈을 의존성에 맞게 다운로드 받아 사용하는 느낌?
 - 그 중심에는 익스프레스가 있다.
+
+---
 
 ### 웹 소켓으로 실시간 데이터 전송하기 (2020.07.07)
 
@@ -493,18 +507,20 @@ router.get("/hashtag", async (req, res, next) => {
 - 이 내용을 배우는 오늘 기준으로 내용을 30% 이해한 것 같다.
 - 코드를 이해하고 입력하는 게 아니라, 따라친다는 느낌을 받은 것은 굉장히 오랜만인 것 같다.
 
+---
+
 ### 실시간 경매 시스템 (2020.07.08)
 
 - Socket.io에서 에러나는 부분이 유독 많은데, 로직이 어려워서 코드를 작성하는 과정에서 계속 실수한다.
 - 채팅 모듈, 실시간 거래 등 주식같은 앱에 이런 내용들을 활용할 수 있지 않을까 싶다.
 
-````
+```
 "더 해보기"
 > 상품 등록자는 경매 참여할 수 없게 만들기 (라우터에서 검사)
 > 경매 시간을 자유롭게 조정할 수 있게 만들기 (상품 등록 시 생성할 수 있게 DB 수정 필요)
 > 노드 서버 꺼졌다 다시 켜졌을 때 스케줄러 다시 생성하기 (checkAuction에서 DB 조회 후 스케줄러 설정)
 > 아무도 입찰을 하지 않아 낙찰자가 없을 때 저리 로직 구현하기 (checkAuction과 스케줄러 수정)
-````
+```
 
 - 핵심
 - **webSocket, Socket.io, node Schedule**
@@ -513,3 +529,53 @@ router.get("/hashtag", async (req, res, next) => {
 
 - 채팅방, 경매 시스템 코드는 최소 3번씩은 다시 입력하면서 테스트 다시 해보자. pug 부분은 중요하지 않지만, 로직을 이해하는 것이 핵심이다.
 - 오타에 너무 연연하지 말자. 코드가 길어지니까 오타 찾는 게 하늘의 별이다.
+
+---
+
+### 구글 API로 장소 검색 서비스 만들기 (2020.07.09)
+
+- schemas/index.js 는 포맷이 거의 동일하다.
+- 이는 MySQL로 테이블 구성할 때도 동일하다.
+- schemas or models는 패턴의 미학이다.
+- 내가 저장할 정보가 테이블이 필요한지, 스키마가 필요한지 판단하고
+- 그에 따라 정보의 자료형을 결정한다.
+
+
+
+- 이 부분에서 **서비스 구성의 핵심은 서버와 클라이언트 간 데이터 공유**다.
+- 서버에서 GOOGLE PLACES API에 요청을 보내고, 결과를 받아서 클라이언트에 렌더링을 진행했다.
+- 클라이언트는 렌더링된 데이터를 GOOGLE MAPS API를 사용해 화면에 지도와 마커를 띄웠다.
+
+**1) 즐겨찾기 만들기 (마커를 클릭하면 현재 위치 기반으로 즐겨찾기로 추가된 위치가 표기된다)**
+
+![favorite](./favorite.png)
+
+
+
+**2) GPS(JS 내장 메소드와 Google API의 콜라보)**
+
+![구글API](./gps.png)
+
+
+
+**3) 구글 맵 검색하기 기능 (구글맵에서 특정 위치 찾기)**
+
+![검색](./search.png)
+
+
+
+**4) 검색어 자동 완성 기능 (검색어와 유사한 위치 자동완성하기)**
+
+![자동완성](./autocomplete.png)
+
+
+
+- 이건 활용하면 서비스 제작에 큰 도움이 1000%된다.
+
+```
+"더 해보기"
+> 즐겨찾기 삭제하기(라우터 생성 및 프런트 화면에 삭제 버튼 추가)
+> 검색 내역 표시하기(검색 내역을 불러와 화면에 렌더링)
+> 다른 @google/maps API 사용하기(Direction API, Distance Matrix API 등)
+```
+
