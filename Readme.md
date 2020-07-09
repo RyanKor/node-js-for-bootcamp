@@ -352,7 +352,7 @@ WriteResult({ "nRemoved" : 1 })
 
 ### Node.js Project (Without Express.js) Express Generator 없이 구현하기
 
-![노드 프로젝트 구조](./express_structure.png)
+![노드 프로젝트 구조](rd_img/express_structure.png)
 
 ```
 > npm i -g sequelizecli
@@ -453,7 +453,7 @@ router.get("/hashtag", async (req, res, next) => {
 - 진행한 프로젝트 중에 node bird라는 프로젝트는 꽤 의미있는 프로젝트다.
 - 기능적으로 트위터의 많은 기능들을 가져오고, 팔로우&팔로잉, 해시태그 구현이 포함되어 있어 꽤 필요한 기능들을 담고 있다.
 
-![nodebird](./node_bird.png)
+![nodebird](rd_img/node_bird.png)
 
 ---
 
@@ -483,11 +483,11 @@ router.get("/hashtag", async (req, res, next) => {
 - 심지어 코드 작성하는 오늘까지도 실습 코드 다 작성했는데, 오류를 다 못찾았다.
 - 발생하는 오류는 아래의 이미지와 같다.
 
-![터미널](./chat_terminal.png)
+![터미널](rd_img/chat_terminal.png)
 
 - 여기서 별도의 삭제 로직을 요청하지 않았는데, 채팅방이 자동 삭제 된다 (몽구스를 통해 디비에 해당 내용이 잘 저장됨에도 불구하고)
 
-![채팅방 이미지](./gitchat.png)
+![채팅방 이미지](rd_img/gitchat.png)
 
 - 아, 이거 고민 좀 꽤 해야될 것 같다.
 
@@ -525,7 +525,7 @@ router.get("/hashtag", async (req, res, next) => {
 - 핵심
 - **webSocket, Socket.io, node Schedule**
 
-![auction](./auction.png)
+![auction](rd_img/auction.png)
 
 - 채팅방, 경매 시스템 코드는 최소 3번씩은 다시 입력하면서 테스트 다시 해보자. pug 부분은 중요하지 않지만, 로직을 이해하는 것이 핵심이다.
 - 오타에 너무 연연하지 말자. 코드가 길어지니까 오타 찾는 게 하늘의 별이다.
@@ -548,25 +548,25 @@ router.get("/hashtag", async (req, res, next) => {
 
 **1) 즐겨찾기 만들기 (마커를 클릭하면 현재 위치 기반으로 즐겨찾기로 추가된 위치가 표기된다)**
 
-![favorite](./favorite.png)
+![favorite](rd_img/favorite.png)
 
 
 
 **2) GPS(JS 내장 메소드와 Google API의 콜라보)**
 
-![구글API](./gps.png)
+![구글API](rd_img/gps.png)
 
 
 
 **3) 구글 맵 검색하기 기능 (구글맵에서 특정 위치 찾기)**
 
-![검색](./search.png)
+![검색](rd_img/search.png)
 
 
 
 **4) 검색어 자동 완성 기능 (검색어와 유사한 위치 자동완성하기)**
 
-![자동완성](./autocomplete.png)
+![자동완성](rd_img/autocomplete.png)
 
 
 
