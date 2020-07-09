@@ -7,7 +7,7 @@
     "start": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Zero Cho",
+  "author": "Ryan",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.17.1",

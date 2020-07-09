@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app"
   },
-  "author": "Zero Cho",
+  "author": "Ryan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.8",

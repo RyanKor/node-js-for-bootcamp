@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app"
   },
-  "author": "ZeroCho",
+  "author": "Ryan",
   "license": "ISC",
   "dependencies": {
     "@google/maps": "^1.1.3",
