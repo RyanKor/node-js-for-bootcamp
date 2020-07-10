@@ -549,3 +549,40 @@ router.get("/hashtag", async (req, res, next) => {
 > 검색 내역 표시하기(검색 내역을 불러와 화면에 렌더링)
 > 다른 @google/maps API 사용하기(Direction API, Distance Matrix API 등)
 ```
+
+### Node CLI 만들기 (2020.07.10)
+
+- 직접 설치해서 만들어보는 노드 커맨드
+
+```javascript
+{
+  "name": "node-cli",
+  "version": "0.0.1",
+  "description": "node cli program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error : no test specified\" && exit 1"
+  },
+  "author": "Ryan",
+  "license": "ISC",
+  "bin": {
+    "cli": "./index.js"
+  }
+}
+
+```
+
+- Commander, Inquirer 사용 (CLI 프로그램을 위한 라이브러리)
+- Package.json이 변경되면 항상 `npm i -g`로 패키지 변경을 해줘야한다.
+
+```
+"더 해보기"
+> 파일을 복사하는 명령어 만들어보기
+> 경로를 지정하면 하위 모든 폴더와 파일을 지우는 명령어 만들어보기
+> 데이터 베이스와 연동해서 가계부 만들어보기
+> (ryan 추가 사항) Node.js 프로젝트 환경 설정을 자동으로 해주는 디폴스 세팅 진행?
+```
+
+- 노드는 단순히 서버가 아니라 자바스크립트를 실행하는 런타입이란 걸 기억하자.
+- npm에는 서버를 위한 패키지 뿐만 아니라 다양한 프로그램을 제작하기 위한 패키지가 있다. 적극적으로 활용하자.
+- 다른 사람이 사용할 것을 대비해서 명령어에 대한 설명을 자세하게 설명해두자.
