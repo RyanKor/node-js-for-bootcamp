@@ -586,3 +586,51 @@ router.get("/hashtag", async (req, res, next) => {
 - 노드는 단순히 서버가 아니라 자바스크립트를 실행하는 런타입이란 걸 기억하자.
 - npm에는 서버를 위한 패키지 뿐만 아니라 다양한 프로그램을 제작하기 위한 패키지가 있다. 적극적으로 활용하자.
 - 다른 사람이 사용할 것을 대비해서 명령어에 대한 설명을 자세하게 설명해두자.
+
+---
+
+### AWS, GOOGLE CLOUD 사용해서 배포하기 (2020.07.11)
+
+- node.js교과서 밖에 있는 api_nodebird라는 폴더로 작업이 진행되었다
+- app.js 부분이 수정되었다
+- config폴더의 config.json을 삭제하고, config.js로 변경했다 (sequelize의 배포할 때 사용 문제로 인해 변경)
+- .env에는 배포 시 활용하는 SEQUELIZE_PASSWORD라는 변수를 별도로 지정해줘야한다.
+- 데이터 베이스에 한글 데이터 저장 시, 발생하는 이슈 해결 방법
+  /_
+  charset: "utf8",
+  collate: "utf8_general_ci",
+  이 두개의 문장은 배포 시, 데이터베이스에서 한글 인지를 못하는 문제를 해결해준다.
+  _/
+- cross-env는 배포환경에서 사용되는 명령어 (`npm start`), 개발시에는 `npm run dev`
+- 취약점 분석을 해주는 npm 패키지에는 `npm i -g retire`라는 것과 `npm audit`이라는 모듈이 있다.
+- pm2 -> 배포시에 서버가 급작스럽게 종료되었을 때, 다시 켜주는 nodemon과 같은 것
+- `cross-env NODE_ENV=production PORT=80 pm2 start app.js -i 0` 맨 뒤의 0은 현재 사용하는 컴퓨터의 CPU 코어 갯수만큼 프로세스를 생성한다는 의미임.
+- 0을 -1로 바꾸면 현재 CPU 코어 갯수보다 1개 줄여서 생성하겠다는 뜻
+  pm2 시작하기
+  ![pm2start](../rd_img/pm2_start.png)
+
+pm2 CPU 코어 갯수만큼 프로세스 생성한 화면
+![pm2start](../rd_img/pm2_list.png)
+
+Pm2 monitor 화면
+![pm2start](../rd_img/pm2_monit.png)
+
+- `npm i winston` -> 배포 시에 console.log / console.error를 대체하는 모듈
+- 더불어서 winston-daily-rotate-file이라는 패키지도 있다. 로그를 날짜별로 관리할 수 있게 해주는 패키지이니 참고하자.
+- helmet, hpp 서버의 각종 취약점을 보완해주는 패키지들
+- `connect-redis`는 멀티 프로세스간 세션 공유를 위해 레디스와 익스프레스를 연결해주는 패키지다.
+- 기존에는 로그인 시 express-session의 세션아이디와 실제 사용자 정보가 메모리에 저장되었는데 이럴 경우, 서버가 종료되는 시점에 접속자들의 로그인이 모두 풀려버리는 문제가 발생한다.
+- 따라서 세션 아이디오 ㅏ실제 사용자 정보를 데이터베이스에 저장해야하는데 이 때 사용하는 것이 `레디스(redis)`s라는 것이다
+
+![pm2start](../rd_img/redis.png)
+
+> Reference
+> [Redis](https://redislabs.com/)
+
+- 배포 관련 이미지들
+
+AWS LightSail
+![pm2start](../rd_img/lightsail.png)
+
+Google Cloud
+![pm2start](../rd_img/google_cloud.png)

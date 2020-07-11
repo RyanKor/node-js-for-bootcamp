@@ -1,10 +1,22 @@
 const http = require("http"); //global module, http
-const fs = require("fs");
-const routes = require("./routes");
-console.log(routes.someText);
-const server = http.createServer(routes.handler);
+const express = require("express");
 
-server.listen(3000);
+const app = express();
+
+// app.use((req, res, next) => {
+//   console.log("I'am Middleware!");
+//   next();
+// }); // app.use() => request handler
+
+app.use("/", (req, res, next) => {
+  console.log("Another Middleware!");
+  res.send("<h1> hello from Express! </h1>");
+});
+const server = http.createServer(app);
+
+// server.listen(3000); //익스프레스 사용 전
+app.listen(3000);
+
 // incoming requests -> my codes -> single JS Thread("fs") -> (start) Event Loop / handle event callback
 //                                         -> send to Worker Pool -> different Threads -> ☝️ trigger callback
 

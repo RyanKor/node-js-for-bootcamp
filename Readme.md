@@ -22,3 +22,6 @@
 - [Node.js교과서](nodejs교과서/Readme.md)
 
 - [Udemy Node.js](udemy/Readme.md)
+
+- api_nodebird는 AWS, GOOGLE CLOUD 배포를 위해 테스트하는 프로젝트다.
+- proxy, cookie.secure 등을 유의깊게 보자 (배포환경에서 적용, app.js)
