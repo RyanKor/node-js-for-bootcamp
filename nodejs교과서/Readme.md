@@ -345,6 +345,14 @@ WriteResult({ "nRemoved" : 1 })
 > npm i dotenv //시크릿 키 관리 모듈 설치하기
 ```
 
+```javascript
+// .env파일 구성하는 방법
+COOKIE_SECRET=cookie secret값 생성
+MONGO_ID= User_ID
+MONGO_PASSWORD= User_Password
+API_KEY= API_KEY
+```
+
 ---
 
 ### sequelize 함수 업데이트 사항 (find -> findOne, 2020.07.06)
@@ -606,13 +614,14 @@ router.get("/hashtag", async (req, res, next) => {
 - pm2 -> 배포시에 서버가 급작스럽게 종료되었을 때, 다시 켜주는 nodemon과 같은 것
 - `cross-env NODE_ENV=production PORT=80 pm2 start app.js -i 0` 맨 뒤의 0은 현재 사용하는 컴퓨터의 CPU 코어 갯수만큼 프로세스를 생성한다는 의미임.
 - 0을 -1로 바꾸면 현재 CPU 코어 갯수보다 1개 줄여서 생성하겠다는 뜻
-  pm2 시작하기
-  ![pm2start](../rd_img/pm2_start.png)
 
-pm2 CPU 코어 갯수만큼 프로세스 생성한 화면
+**pm2 시작하기**
+![pm2start](../rd_img/pm2_start.png)
+
+**pm2 CPU 코어 갯수만큼 프로세스 생성한 화면**
 ![pm2start](../rd_img/pm2_list.png)
 
-Pm2 monitor 화면
+**pm2 monitor 화면**
 ![pm2start](../rd_img/pm2_monit.png)
 
 - `npm i winston` -> 배포 시에 console.log / console.error를 대체하는 모듈
@@ -622,6 +631,8 @@ Pm2 monitor 화면
 - 기존에는 로그인 시 express-session의 세션아이디와 실제 사용자 정보가 메모리에 저장되었는데 이럴 경우, 서버가 종료되는 시점에 접속자들의 로그인이 모두 풀려버리는 문제가 발생한다.
 - 따라서 세션 아이디오 ㅏ실제 사용자 정보를 데이터베이스에 저장해야하는데 이 때 사용하는 것이 `레디스(redis)`s라는 것이다
 
+**Redis Homepage**
+
 ![pm2start](../rd_img/redis.png)
 
 > Reference
@@ -629,8 +640,39 @@ Pm2 monitor 화면
 
 - 배포 관련 이미지들
 
-AWS LightSail
+**AWS LightSail**
 ![pm2start](../rd_img/lightsail.png)
 
-Google Cloud
+**Google Cloud**
 ![pm2start](../rd_img/google_cloud.png)
+
+---
+
+### Serverless 노드 개발하기 (2020.07.11)
+
+- 완벽한 의미의 Serverless는 사실 불가능하다
+
+- AWS에서는 서버리스 서비스 중 Lamda, API Gateway, S3를 사용해서 개발에 도움을 준다.
+
+- Google에서는 App Engine, Firebase, Cloud Functions, Cloud Storage 등이 유명하다.
+
+- Lamda, Cloud Functions는 특정한 동작을 수행하는 로직을 저장하고, 요청이 들어올 때 로직을 실행하는 서비스다.
+
+- 함수를 호출할 때 실행되므로 Faas(Function as a Service)라고도 부른다.
+
+- 이미지 Resizing 같은 작업은 노드 서버에서 활용하기에는 버겁다. 상황에 맞게 Lamda 등을 사용해서 해당 작업만 대신해서 결과물만 S3로 저장하게 도와주는 형태의 로직을 작업하면, 서버에 가는 부담을 감소시킬 수 있다.
+
+- 전세계 모든 언어로된 정보를 구글은 크롤링해서 가져오는데, 이 뜻은 구글은 크롤링만 전문으로 처리해줄 수 있는 서버를 두고 작업한다는 뜻인가?
+
+- 이 `서버리스(Serverless)`라는 개념으로 접근하면 하나의 서버에서 처리하던 기능들을 분업화시키면, 그 부분에 대한 서버의 부담을 줄이고, 서버가 갑작스레 종료되거나 작동하지 않을 때, 해당 기능이 같이 종료되지 않는 장점을 갖는다.
+- 그래서 어떻게 보면, 기능들을 분업화 시켜서 서버에 연동하는 게 중요한 과정일 수 있다.
+- 이미 많은 서비스들과 기능들이 적용해서 활용하고 있을 것이다.
+- Lamda나 API Gateway가 단순히 코드를 돌려주는 역할만 해주는 줄 알았더니, 더 많은 기능들을 커버하는 일들을 보여준다.
+
+---
+
+### 결론 (2020.07.11)
+
+- MySQL은 RDS에서 배포한다 치면, MongoDB 배포 돕는 AWS 서비스는 뭐지?
+
+- AWS 서비스 탐구도 개발 능력 향상에 큰 도움을 준다. API Gateway, Lamda, LightSail 등 등 활용할 수 있는 모든 것들을 가져와 써보자.

@@ -64,3 +64,7 @@ app.use((req, res, next) => {
 ```
 
 ![middleware](../rd_img/middleware.png)
+
+---
+
+### body-parser의 명확한 역할이 뭐지?(2020.07.12)
