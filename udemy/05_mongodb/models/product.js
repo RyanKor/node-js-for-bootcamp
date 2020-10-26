@@ -46,7 +46,7 @@ class Product {
       });
   }
 
-  static findById(prodId) {
+  static findByPk(prodId) {
     const db = getDb();
     return db
       .collection('products')

@@ -110,7 +110,7 @@ class User {
       .toArray();
   }
 
-  static findById(userId) {
+  static findByPk(userId) {
     const db = getDb();
     return db
       .collection('users')

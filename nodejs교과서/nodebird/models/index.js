@@ -22,7 +22,7 @@ db.Post.belongsTo(db.User); //belongTo -> 1:N 관계
 db.Post.belongsToMany(db.Hashtag, { through: "PostHashTag" }); // belongToMany -> 다대다 관계
 db.Hashtag.belongsToMany(db.Post, { through: "PostHashTag" });
 db.User.belongsToMany(db.User, {
-  foreignKey: "followingId",
+  foreignKey: "followerId",
   as: "Followers",
   through: "Follow",
 });

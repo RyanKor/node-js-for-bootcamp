@@ -1,3 +1,13 @@
+# 목차
+
+- [shop structure](./01_shop_structure) : 쇼핑몰 구성을 위한 ejs & routes 연습을 해볼 수 있다. 일종의 CRUD 노드 버전 연습용이다.
+
+- [dynamic routes](./02_dynamic_routes) : routes 연습 2. CRUD를 ejs를 활용해서 계속 연습하고 있다. Django 배울 때랑 느낌이 상당히 흡사하다. 간단한 장바구니 기능이 구현되어 있다. 다만, 상태관리하는 controller의 역할을 주의깊게 학습해야한다. 결국 이 파트에서 언급하고 싶었던 것은 Route를 지정할 때, `'/add-product'` 형태의 이런 정적인 라우팅보다 `/add-product/:id` 이런 형태로 바인딩하는 것을 이해시켜주고 싶었던 것이다. Django detail 페이지 생성할 때랑 느낌이 동일하다.
+
+- [SQL Introduction](./03_SQL_intro) : Sequelize를 사용하기 전에 mysql 명령어를 활용해서 데이터 베이스에 정보를 저장하고 조회하는 기능을 만들었다. 앞 전에 만들었던 게시글 생성하는 기능의 연장선인 것 같다.
+
+- [SQL Sequelize](./04_sequelize) : mysql2라는 모듈이 반드시 설치된 상태에서 sequelize 모듈을 활용할 수 있다.
+
 ## Udemy 학습 진행 상황
 
 ---
@@ -136,3 +146,5 @@ Raw, Text형식의 본문을 추가로 해석할 수 있다.
 - 생각해보니, controller에 해당하는 부분을 node.js 교과서에서는 views폴더에 녹여서 설명을 진행했던 것 같다.
 
 - 데이터의 상태 관리를 담당하는 부분을 mvc 패턴에서 controller가 담당하는 것 같은데, 왜 node.js 교과서에서는 내용 설명을 안했을까?
+
+- JS에서 static 명령어를 활용하는 경우가 어떤 경우인가?

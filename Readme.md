@@ -25,3 +25,4 @@
 
 - api_nodebird는 AWS, GOOGLE CLOUD 배포를 위해 테스트하는 프로젝트다.
 - proxy, cookie.secure 등을 유의깊게 보자 (배포환경에서 적용, app.js)
+- `Node.js교과서`에는 controller를 다루는 부분이 코드 작성 부분에서 빠져있다. 이 부분을 Refactoring하면서 controller에 대한 감을 이해하는 것도 도움이 될 것 같다.
