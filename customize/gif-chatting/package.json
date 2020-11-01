@@ -1,0 +1,33 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "node api practice",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node app.js",
+    "dev": "nodemon --exec babel-node app.js"
+  },
+  "author": "ryan kim",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "color-hash": "^1.0.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "pug": "^3.0.0",
+    "socket.io": "^2.3.0",
+    "ws": "^7.3.1"
+  }
+}
